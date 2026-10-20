@@ -67,7 +67,7 @@ export function ThemeToggle({ locale }: { locale: Locale }) {
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle("dark", next);
-    try { localStorage.setItem("theme", next ? "dark" : "light"); } catch {}
+    try { localStorage.setItem("theme-v2", next ? "dark" : "light"); } catch {}
   };
   return (
     <button onClick={toggle} aria-label={dark ? t.light : t.dark} title={dark ? t.light : t.dark}
