@@ -55,7 +55,9 @@ export default function Header({ locale }: { locale: Locale }) {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2">
           <span>{site.address[locale]}</span>
           <div className="flex items-center gap-5">
-            <a href={`tel:${site.phones[0].replace(/\s/g, "")}`} className="flex items-center gap-1.5 hover:text-white" dir="ltr"><Phone size={12} />{site.phones[0]}</a>
+            {site.phones.map((p) => (
+              <a key={p} href={`tel:${p.replace(/\s/g, "")}`} className="flex items-center gap-1.5 hover:text-white" dir="ltr"><Phone size={12} />{p}</a>
+            ))}
             <a href={`mailto:${site.emails[0]}`} className="hover:text-white">{site.emails[0]}</a>
           </div>
         </div>
