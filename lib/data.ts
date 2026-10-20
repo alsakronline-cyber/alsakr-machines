@@ -420,4 +420,4 @@ export const videos: Video[] = [
 ];
 
 export const fbVideoEmbed = (id: string) =>
-  `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(`https://www.facebook.com/ags2030/videos/${id}/`)}&show_text=false&autoplay=true`;
+  `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(`https://www.facebook.com/ags2030/videos/${id}/`)}&show_text=false&width=1280&height=720`;

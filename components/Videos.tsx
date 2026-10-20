@@ -38,7 +38,12 @@ export default function Videos({ items, locale, className = "grid gap-6 md:grid-
               <div className="aspect-video overflow-hidden rounded-2xl bg-black">
                 <iframe src={fbVideoEmbed(active.id)} title={active.title[locale]} className="h-full w-full" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
               </div>
-              <p className="mt-4 text-center font-semibold text-white">{active.title[locale]}</p>
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-white">
+                <p className="font-semibold">{active.title[locale]}</p>
+                <a href={`https://www.facebook.com/ags2030/videos/${active.id}/`} target="_blank" rel="noopener" className="rounded-full border border-white/30 px-4 py-1.5 text-sm hover:border-brand-400 hover:text-brand-300">
+                  {locale === "ar" ? "شاهد على فيسبوك" : "Watch on Facebook"}
+                </a>
+              </div>
             </motion.div>
             <button aria-label="Close" onClick={() => setActive(null)} className="absolute end-4 top-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"><X /></button>
           </motion.div>
