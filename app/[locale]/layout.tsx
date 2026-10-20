@@ -4,7 +4,8 @@ import "../globals.css";
 import { locales, site, type Locale } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { FloatingActions, QuoteProvider } from "@/components/client";
+import { FloatingActions, QuoteProvider, ScrollProgress } from "@/components/client";
+import LeadPopup from "@/components/LeadPopup";
 
 const cairo = Cairo({ subsets: ["arabic", "latin"], variable: "--font-cairo", weight: ["400", "500", "600", "700", "800"] });
 const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk", weight: ["400", "500", "600", "700"] });
@@ -50,10 +51,12 @@ export default async function LocaleLayout({ children, params }: { children: Rea
       </head>
       <body className="min-h-screen overflow-x-hidden">
         <QuoteProvider locale={locale}>
+          <ScrollProgress />
           <Header locale={locale} />
           <main>{children}</main>
           <Footer locale={locale} />
           <FloatingActions locale={locale} />
+          <LeadPopup locale={locale} />
         </QuoteProvider>
       </body>
     </html>

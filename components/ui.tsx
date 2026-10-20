@@ -6,7 +6,7 @@ import {
 import { getDict } from "@/lib/i18n";
 import type { Product, news as newsData } from "@/lib/data";
 import { site, type Locale } from "@/lib/site";
-import { GlowCard, QuoteButton, Reveal, btnGhost } from "./client";
+import { GlowCard, QuoteButton, Reveal, Tilt, btnGhost } from "./client";
 
 export const icons: Record<string, LucideIcon> = {
   Droplets, Factory, FlaskConical, LifeBuoy, MessagesSquare, Package, PencilRuler, Pill, Sparkles, Sprout, Wheat, Wrench,
@@ -33,7 +33,7 @@ export function PageHero({ title, sub, img, crumbs }: { title: string; sub?: str
     <section className="relative overflow-hidden bg-ink-950 pb-20 pt-40 text-white">
       {img && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={img} alt="" className="absolute inset-0 h-full w-full object-cover opacity-25" />
+        <img src={img} alt="" className="kenburns absolute inset-0 h-full w-full object-cover opacity-25" />
       )}
       <div className="absolute inset-0 bg-gradient-to-b from-ink-950/40 via-ink-950/70 to-ink-950" />
       <div className="grid-bg absolute inset-0 opacity-60" />
@@ -59,6 +59,7 @@ export function PageHero({ title, sub, img, crumbs }: { title: string; sub?: str
 export function MachineCard({ p, locale }: { p: Product; locale: Locale }) {
   const t = getDict(locale);
   return (
+    <Tilt className="h-full">
     <GlowCard className="group h-full rounded-3xl">
       <Link href={`/${locale}/machines/${p.slug}/`} className="surface flex h-full flex-col overflow-hidden rounded-3xl border border-line transition duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-500/10">
         <div className="relative aspect-[4/3] overflow-hidden bg-white">
@@ -80,6 +81,7 @@ export function MachineCard({ p, locale }: { p: Product; locale: Locale }) {
         </div>
       </Link>
     </GlowCard>
+    </Tilt>
   );
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView, useMotionValue, animate } from "framer-motion";
+import { AnimatePresence, motion, useInView, useMotionValue, useScroll, useSpring, animate } from "framer-motion";
 import { ArrowUp, MessageCircle, Moon, Send, Sun, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { getDict } from "@/lib/i18n";
 import { waLink, type Locale } from "@/lib/site";
@@ -54,7 +54,7 @@ export function QuoteButton({ locale, machine, className, children }: { locale: 
 }
 
 export const btnPrimary =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition hover:-translate-y-0.5 hover:bg-brand-400 hover:shadow-brand-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400";
+  "shine inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition hover:-translate-y-0.5 hover:bg-brand-400 hover:shadow-brand-500/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400";
 export const btnGhost =
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-line px-6 py-3 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-brand-500 hover:text-brand-500";
 
@@ -215,5 +215,31 @@ export function FloatingActions({ locale }: { locale: Locale }) {
         <WhatsAppIcon />
       </a>
     </div>
+  );
+}
+
+/* ---------- Extra motion ---------- */
+/** Thin brand-coloured bar at the top of the viewport that tracks scroll progress. */
+export function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.3 });
+  return <motion.div aria-hidden style={{ scaleX }} className="fixed inset-x-0 top-0 z-[75] h-[3px] origin-left bg-gradient-to-r from-brand-300 via-brand-500 to-brand-700 rtl:origin-right" />;
+}
+
+/** Tilts its child in 3D toward the cursor. Disabled for touch and reduced-motion users. */
+export function Tilt({ children, className = "", max = 8 }: { children: React.ReactNode; className?: string; max?: number }) {
+  const rx = useMotionValue(0), ry = useMotionValue(0);
+  const srx = useSpring(rx, { stiffness: 200, damping: 18 }), sry = useSpring(ry, { stiffness: 200, damping: 18 });
+  return (
+    <motion.div className={className} style={{ rotateX: srx, rotateY: sry, transformPerspective: 900 }}
+      onPointerMove={(e) => {
+        if (e.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const r = e.currentTarget.getBoundingClientRect();
+        ry.set(((e.clientX - r.left) / r.width - 0.5) * max * 2);
+        rx.set(-((e.clientY - r.top) / r.height - 0.5) * max * 2);
+      }}
+      onPointerLeave={() => { rx.set(0); ry.set(0); }}>
+      {children}
+    </motion.div>
   );
 }

@@ -105,3 +105,12 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Slow zoom on page-hero background images */
+@keyframes kenburns { from { transform: scale(1.12) translate3d(-1%, -1%, 0); } to { transform: scale(1) translate3d(0, 0, 0); } }
+.kenburns { animation: kenburns 14s ease-out both; }
+
+/* Shine sweep across primary buttons on hover */
+.shine { position: relative; overflow: hidden; }
+.shine::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%); transform: translateX(-120%); transition: transform .8s; }
+.shine:hover::after { transform: translateX(120%); }

@@ -1,0 +1,180 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Send, Sparkles, X } from "lucide-react";
+import { waLink, type Locale, type T } from "@/lib/site";
+
+const s = (ar: string, en: string): T => ({ ar, en });
+type Q = { id: string; label: T; options: T[] };
+
+const common: Q[] = [
+  { id: "industry", label: s("القطاع", "Industry"), options: [s("أغذية ومشروبات", "Food & beverage"), s("أدوية", "Pharmaceuticals"), s("مستحضرات تجميل", "Cosmetics"), s("منظفات وكيماويات", "Detergents & chemicals"), s("زيوت", "Oils"), s("كيماويات زراعية", "Agrochemicals")] },
+  { id: "timeline", label: s("موعد التنفيذ", "Timeline"), options: [s("فوراً", "Immediately"), s("خلال 3 شهور", "Within 3 months"), s("خلال 6 شهور", "Within 6 months"), s("دراسة فقط", "Just researching")] },
+];
+
+/** Follow-up questions per machine type. */
+const types: { id: string; name: T; questions: Q[] }[] = [
+  { id: "liquid", name: s("ماكينة تعبئة سوائل", "Liquid filling machine"), questions: [
+    { id: "viscosity", label: s("طبيعة المنتج", "Product type"), options: [s("سائل خفيف (مياه، عصير)", "Thin liquid (water, juice)"), s("متوسط اللزوجة (زيت، شامبو)", "Medium (oil, shampoo)"), s("لزج / كريم / معجون", "Thick (cream, paste)"), s("رغوي أو كيماوي", "Foamy or chemical")] },
+    { id: "container", label: s("نوع العبوة", "Container"), options: [s("زجاجة", "Bottle"), s("جركن", "Jerrycan"), s("برطمان", "Jar"), s("جالون / براميل", "Gallon / drum")] },
+    { id: "volume", label: s("حجم التعبئة", "Fill volume"), options: [s("حتى 500 مل", "Up to 500 ml"), s("0.5 – 5 لتر", "0.5 – 5 L"), s("5 – 20 لتر", "5 – 20 L")] },
+    { id: "output", label: s("الإنتاج المطلوب", "Target output"), options: [s("حتى 1000 عبوة/ساعة", "Up to 1,000 BPH"), s("1000 – 3000 عبوة/ساعة", "1,000 – 3,000 BPH"), s("3000 – 6000 عبوة/ساعة", "3,000 – 6,000 BPH")] },
+  ] },
+  { id: "vffs", name: s("ماكينة تعبئة وتغليف رأسية (أكياس)", "Vertical bagging machine (VFFS)"), questions: [
+    { id: "product", label: s("المنتج", "Product"), options: [s("بودرة", "Powder"), s("حبوب / بقوليات", "Grains / pulses"), s("سناكس / شيبسي", "Snacks / chips"), s("مجمدات", "Frozen food"), s("سوائل", "Liquids")] },
+    { id: "bag", label: s("شكل الكيس", "Bag style"), options: [s("وسادة", "Pillow"), s("واقف بسوستة (دويباك)", "Stand-up / doypack"), s("كواترو", "Quattro"), s("ساشيه", "Sachet")] },
+    { id: "weight", label: s("وزن العبوة", "Pack weight"), options: [s("حتى 100 جم", "Up to 100 g"), s("100 جم – 1 كجم", "100 g – 1 kg"), s("1 – 5 كجم", "1 – 5 kg")] },
+    { id: "dosing", label: s("نظام الوزن", "Dosing system"), options: [s("موازين متعددة الرؤوس", "Multihead weigher"), s("بريمة (Auger)", "Auger"), s("أكواب حجمية", "Volumetric cups"), s("لا أعرف", "Not sure")] },
+  ] },
+  { id: "sachet", name: s("ماكينة ساشيه متعددة المسارات", "Multi-lane sachet machine"), questions: [
+    { id: "product", label: s("المنتج", "Product"), options: [s("بودرة", "Powder"), s("سائل", "Liquid"), s("جل / كريم", "Gel / cream")] },
+    { id: "weight", label: s("وزن الساشيه", "Sachet weight"), options: [s("2 – 10 جم", "2 – 10 g"), s("10 – 50 جم", "10 – 50 g"), s("50 – 120 جم", "50 – 120 g")] },
+    { id: "lanes", label: s("عدد المسارات", "Lanes"), options: [s("2 – 4", "2 – 4"), s("5 – 8", "5 – 8"), s("حتى 10", "Up to 10")] },
+  ] },
+  { id: "labelling", name: s("ماكينة لصق ليبل (استيكر)", "Labelling machine"), questions: [
+    { id: "shape", label: s("شكل العبوة", "Container shape"), options: [s("دائرية", "Round"), s("مسطحة / مربعة", "Flat / square"), s("بيضاوية", "Oval"), s("مخروطية", "Conical")] },
+    { id: "labels", label: s("مواضع الليبل", "Label positions"), options: [s("وجه واحد", "Front only"), s("وجهين (أمامي وخلفي)", "Front & back"), s("لف كامل", "Full wrap"), s("ختم أمان على الغطاء", "Cap security seal")] },
+    { id: "speed", label: s("السرعة المطلوبة", "Required speed"), options: [s("حتى 30 عبوة/دقيقة", "Up to 30 /min"), s("30 – 80 عبوة/دقيقة", "30 – 80 /min"), s("أكثر من 80", "80+ /min")] },
+  ] },
+  { id: "capping", name: s("ماكينة غطاء (كابينج)", "Capping machine"), questions: [
+    { id: "cap", label: s("نوع الغطاء", "Cap type"), options: [s("قلاووظ", "Screw cap"), s("ضغط", "Press-on"), s("Twist-off", "Twist-off"), s("بخاخ / بامب", "Trigger / pump")] },
+    { id: "container", label: s("نوع العبوة", "Container"), options: [s("زجاجة", "Bottle"), s("جركن", "Jerrycan"), s("برطمان", "Jar")] },
+  ] },
+  { id: "sleeve", name: s("ماكينة سليف حراري", "Shrink sleeve machine"), questions: [
+    { id: "sleeve", label: s("نوع السليف", "Sleeve type"), options: [s("سليف كامل للجسم", "Full body sleeve"), s("شريط أمان على الغطاء", "Neck / cap band"), s("الاثنين معاً", "Both")] },
+    { id: "tunnel", label: s("نوع النفق", "Shrink tunnel"), options: [s("بخار", "Steam"), s("هواء ساخن", "Hot air"), s("لا أعرف", "Not sure")] },
+  ] },
+  { id: "endline", name: s("نهاية الخط (شرنك، كرتنة، بالتة)", "End of line (shrink, carton, pallet)"), questions: [
+    { id: "need", label: s("المطلوب", "Need"), options: [s("تغليف شرنك", "Shrink wrapping"), s("تعبئة في كراتين", "Cartoning / case packing"), s("لصق شريط الكرتون", "Carton taping"), s("رص على البالتات", "Palletizing"), s("لف البالتات استريتش", "Pallet stretch wrapping")] },
+    { id: "rate", label: s("المعدل", "Rate"), options: [s("حتى 300 كرتونة/ساعة", "Up to 300 cases/h"), s("300 – 800 كرتونة/ساعة", "300 – 800 cases/h"), s("أكثر من 800", "800+ cases/h")] },
+  ] },
+  { id: "line", name: s("خط إنتاج متكامل (تسليم مفتاح)", "Complete turnkey line"), questions: [
+    { id: "stages", label: s("مراحل الخط", "Line stages"), options: [s("تعبئة + غطاء", "Filling + capping"), s("تعبئة + غطاء + ليبل", "Filling + capping + labelling"), s("الخط كامل حتى البالتة", "Full line to pallet")] },
+    { id: "budget", label: s("الميزانية التقريبية", "Approximate budget"), options: [s("اقتصادية", "Economy"), s("متوسطة", "Mid-range"), s("أعلى أداء", "High performance")] },
+  ] },
+];
+
+const KEY = "leadPopup";
+
+export default function LeadPopup({ locale }: { locale: Locale }) {
+  const ar = locale === "ar";
+  const [open, setOpen] = useState(false);
+  const [never, setNever] = useState(false);
+  const [type, setType] = useState("");
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [contact, setContact] = useState({ name: "", phone: "" });
+
+  useEffect(() => {
+    let skip = false;
+    try { skip = localStorage.getItem(KEY) === "dismissed" || sessionStorage.getItem(KEY) === "shown"; } catch {}
+    if (skip) return;
+    const t = setTimeout(() => { setOpen(true); try { sessionStorage.setItem(KEY, "shown"); } catch {} }, 5000);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  const close = () => {
+    if (never) { try { localStorage.setItem(KEY, "dismissed"); } catch {} }
+    setOpen(false);
+  };
+
+  const current = useMemo(() => types.find((x) => x.id === type), [type]);
+  const questions = current ? [...current.questions, ...common] : [];
+  const answered = questions.filter((q) => answers[q.id]).length;
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!current) return;
+    const lines = [
+      ar ? "طلب ترشيح ماكينة من الموقع" : "Machine recommendation request",
+      `${ar ? "نوع الماكينة" : "Machine type"}: ${current.name[locale]}`,
+      ...questions.filter((q) => answers[q.id]).map((q) => `${q.label[locale]}: ${answers[q.id]}`),
+      contact.name && `${ar ? "الاسم" : "Name"}: ${contact.name}`,
+      contact.phone && `${ar ? "الهاتف" : "Phone"}: ${contact.phone}`,
+    ].filter(Boolean);
+    window.open(waLink(lines.join("\n")), "_blank", "noopener");
+    try { localStorage.setItem(KEY, "dismissed"); } catch {}
+    setOpen(false);
+  };
+
+  const field = "surface w-full rounded-xl border border-line px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15";
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div className="fixed inset-0 z-[85] flex items-end justify-center bg-black/55 p-0 backdrop-blur-sm sm:items-center sm:p-6"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={close}>
+          <motion.div role="dialog" aria-modal="true" aria-labelledby="lead-title"
+            className="surface relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-line shadow-2xl sm:rounded-3xl"
+            initial={{ y: 60, opacity: 0, scale: 0.96 }} animate={{ y: 0, opacity: 1, scale: 1 }} exit={{ y: 40, opacity: 0 }}
+            transition={{ type: "spring", damping: 24, stiffness: 260 }} onClick={(e) => e.stopPropagation()}>
+            <div className="relative overflow-hidden bg-gradient-to-br from-brand-600 via-brand-500 to-ink-800 p-6 text-white">
+              <div className="grid-bg absolute inset-0 opacity-30" />
+              <button onClick={close} aria-label={ar ? "إغلاق" : "Close"} className="absolute end-3 top-3 rounded-full p-2 text-white/80 transition hover:bg-white/15 hover:text-white"><X size={20} /></button>
+              <motion.span className="relative inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold"
+                animate={{ scale: [1, 1.05, 1] }} transition={{ repeat: Infinity, duration: 2.4 }}>
+                <Sparkles size={14} /> {ar ? "مستشار الماكينات" : "Machine finder"}
+              </motion.span>
+              <h2 id="lead-title" className="font-display relative mt-3 text-2xl font-bold">{ar ? "ما الماكينة المناسبة لمصنعك؟" : "Which machine fits your plant?"}</h2>
+              <p className="relative mt-1 text-sm text-white/80">{ar ? "أجب عن أسئلة قصيرة وسيرشح لك مهندسونا الحل الأنسب خلال 24 ساعة." : "Answer a few quick questions and our engineers will recommend the right solution within 24 hours."}</p>
+              {current && (
+                <div className="relative mt-4 h-1.5 overflow-hidden rounded-full bg-white/20">
+                  <motion.div className="h-full rounded-full bg-white" animate={{ width: `${(answered / questions.length) * 100}%` }} />
+                </div>
+              )}
+            </div>
+
+            <form onSubmit={submit} className="space-y-4 p-6">
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-semibold">{ar ? "نوع الماكينة" : "Machine type"}</span>
+                <select required value={type} onChange={(e) => { setType(e.target.value); setAnswers({}); }} className={field}>
+                  <option value="" disabled>{ar ? "اختر نوع الماكينة…" : "Choose a machine type…"}</option>
+                  {types.map((x) => <option key={x.id} value={x.id}>{x.name[locale]}</option>)}
+                </select>
+              </label>
+
+              <AnimatePresence mode="popLayout">
+                {questions.map((q, i) => (
+                  <motion.label key={type + q.id} className="block" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ delay: i * 0.05 }}>
+                    <span className="mb-1.5 block text-sm font-semibold">{q.label[locale]}</span>
+                    <select value={answers[q.id] ?? ""} onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))} className={field}>
+                      <option value="">{ar ? "اختر…" : "Select…"}</option>
+                      {q.options.map((o) => <option key={o.en} value={o[locale]}>{o[locale]}</option>)}
+                    </select>
+                  </motion.label>
+                ))}
+              </AnimatePresence>
+
+              {current && (
+                <motion.div className="grid gap-3 sm:grid-cols-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <input value={contact.name} onChange={(e) => setContact((c) => ({ ...c, name: e.target.value }))} placeholder={ar ? "الاسم" : "Name"} aria-label={ar ? "الاسم" : "Name"} className={field} />
+                  <input required type="tel" value={contact.phone} onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))} placeholder={ar ? "رقم الهاتف" : "Phone"} aria-label={ar ? "رقم الهاتف" : "Phone"} className={field} />
+                </motion.div>
+              )}
+
+              <button type="submit" disabled={!current}
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-400 disabled:cursor-not-allowed disabled:opacity-50">
+                <Send size={16} className="flip-rtl" /> {ar ? "أرسل واحصل على الترشيح" : "Get my recommendation"}
+              </button>
+
+              <div className="flex items-center justify-between gap-4 pt-1 text-sm">
+                <label className="flex cursor-pointer items-center gap-2 text-muted">
+                  <input type="checkbox" checked={never} onChange={(e) => setNever(e.target.checked)} className="h-4 w-4 accent-brand-500" />
+                  {ar ? "لا تظهر هذه الرسالة مرة أخرى" : "Don't show this again"}
+                </label>
+                <button type="button" onClick={close} className="font-semibold text-muted hover:text-brand-500">{ar ? "ليس الآن" : "Not now"}</button>
+              </div>
+            </form>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
