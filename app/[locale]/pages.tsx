@@ -131,9 +131,9 @@ export function MachineDetailPage({ locale, slug }: P & { slug: string }) {
             </Reveal>
             <Reveal delay={0.2}>
               <div className="mt-8 flex flex-wrap gap-3">
-                <QuoteButton locale={locale} machine={p.name[locale]} />
-                <a href={waLink(`${p.name[locale]}`)} target="_blank" rel="noopener" className={`${btnGhost} border-white/20 text-white`}>{t.cta.whatsapp}</a>
-                <a href={site.catalog} download className={`${btnGhost} border-white/20 text-white`}><Download size={16} /> {t.cta.catalog}</a>
+                <QuoteButton locale={locale} machine={p.name[locale]} className="shine inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-3 text-sm font-bold text-brand-700 shadow-xl transition hover:-translate-y-0.5" />
+                <a href={waLink(`${p.name[locale]}`)} target="_blank" rel="noopener" className={`${btnGhost} border-white/60 text-white hover:border-white hover:bg-white/10 hover:text-white`}>{t.cta.whatsapp}</a>
+                <a href={site.catalog} download className={`${btnGhost} border-white/60 text-white hover:border-white hover:bg-white/10 hover:text-white`}><Download size={16} /> {t.cta.catalog}</a>
               </div>
             </Reveal>
           </div>

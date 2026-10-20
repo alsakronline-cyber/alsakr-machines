@@ -66,12 +66,12 @@ export default function Header({ locale }: { locale: Locale }) {
 
           <nav className="hidden flex-1 items-center justify-center gap-1 lg:flex" onMouseLeave={() => setMega(false)}>
             <button onMouseEnter={() => setMega(true)} onClick={() => setMega((v) => !v)} aria-expanded={mega}
-              className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm xl:px-4 font-medium transition hover:text-brand-500 ${active("/machines") ? "text-brand-500" : ""}`}>
+              className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm xl:px-4 font-medium transition hover:text-brand-500 ${active("/machines") ? "text-brand-500 dark:text-white dark:underline dark:decoration-2 dark:underline-offset-8" : ""}`}>
               {t.nav.machines} <ChevronDown size={14} className={`transition ${mega ? "rotate-180" : ""}`} />
             </button>
             {nav.map((n) => (
               <Link key={n.href} href={L(n.href)} onMouseEnter={() => setMega(false)}
-                className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition xl:px-4 hover:text-brand-500 ${active(n.href) ? "text-brand-500" : ""}`}>
+                className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition xl:px-4 hover:text-brand-500 ${active(n.href) ? "text-brand-500 dark:text-white dark:underline dark:decoration-2 dark:underline-offset-8" : ""}`}>
                 {n.label}
               </Link>
             ))}
@@ -112,7 +112,7 @@ export default function Header({ locale }: { locale: Locale }) {
               <Globe size={16} /> <span className="hidden sm:inline">{t.lang}</span>
             </Link>
             <ThemeToggle locale={locale} />
-            <QuoteButton locale={locale} className="hidden whitespace-nowrap rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-400 md:inline-flex" />
+            <QuoteButton locale={locale} className="hidden whitespace-nowrap rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 ring-1 ring-white/40 transition hover:bg-brand-400 md:inline-flex" />
             <button className="grid h-10 w-10 place-items-center rounded-full border border-line lg:hidden" onClick={() => setMobile(true)} aria-label="Menu"><Menu size={18} /></button>
           </div>
         </div>
