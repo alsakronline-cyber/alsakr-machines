@@ -22,7 +22,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-[100svh] overflow-hidden bg-ink-950 text-white">
+      <section className="dark relative min-h-[100svh] overflow-hidden bg-ink-950 text-white">
         <div className="grid-bg absolute inset-0 opacity-70" />
         <div className="absolute -top-32 start-[-10%] h-[520px] w-[520px] rounded-full bg-brand-500/25 blur-[140px]" />
         <div className="absolute bottom-0 end-[-10%] h-[420px] w-[420px] rounded-full bg-brand-700/30 blur-[120px]" />
