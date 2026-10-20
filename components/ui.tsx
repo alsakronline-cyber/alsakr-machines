@@ -30,17 +30,17 @@ export function SectionTitle({ kicker, title, sub, center }: { kicker: string; t
 
 export function PageHero({ title, sub, img, crumbs }: { title: string; sub?: string; img?: string; crumbs?: { href: string; label: string }[] }) {
   return (
-    <section className="relative overflow-hidden bg-ink-950 pb-20 pt-40 text-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 pb-20 pt-40 text-white">
       {img && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={img} alt="" className="kenburns absolute inset-0 h-full w-full object-cover opacity-25" />
       )}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink-950/40 via-ink-950/70 to-ink-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-brand-700/40 via-brand-700/60 to-brand-600/90" />
       <div className="grid-bg absolute inset-0 opacity-60" />
-      <div className="absolute -top-40 start-1/3 h-96 w-96 rounded-full bg-brand-500/30 blur-[120px]" />
+      <div className="absolute -top-40 start-1/3 h-96 w-96 rounded-full bg-white/25 blur-[120px]" />
       <Container className="relative">
         {crumbs && (
-          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-steel-400">
+          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-white/75">
             {crumbs.map((c, i) => (
               <span key={c.href} className="flex items-center gap-2">
                 {i > 0 && <span>/</span>}
@@ -50,7 +50,7 @@ export function PageHero({ title, sub, img, crumbs }: { title: string; sub?: str
           </nav>
         )}
         <Reveal><h1 className="font-display max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{title}</h1></Reveal>
-        {sub && <Reveal delay={0.1}><p className="mt-5 max-w-2xl text-lg leading-8 text-steel-400">{sub}</p></Reveal>}
+        {sub && <Reveal delay={0.1}><p className="mt-5 max-w-2xl text-lg leading-8 text-white/85">{sub}</p></Reveal>}
       </Container>
     </section>
   );

@@ -145,7 +145,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* INDUSTRIES */}
-      <section className="relative overflow-hidden bg-ink-950 py-24 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-brand-50 via-white to-brand-100 py-24 dark:from-ink-900 dark:via-ink-950 dark:to-ink-900">
         <div className="grid-bg absolute inset-0 opacity-50" />
         <Container className="relative">
           <SectionTitle kicker={t.sections.industries} title={t.sections.industriesT} />
@@ -154,14 +154,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               const I = icons[ind.icon];
               return (
                 <Reveal key={ind.id} delay={(i % 3) * 0.08}>
-                  <Link href={`${L("/machines/")}?industry=${ind.id}`} className="group relative block h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-7 transition hover:border-brand-500/60 hover:bg-white/[0.06]">
+                  <Link href={`${L("/machines/")}?industry=${ind.id}`} className="group relative block h-full overflow-hidden rounded-3xl surface border border-line p-7 shadow-sm transition hover:-translate-y-1 hover:border-brand-500/60 hover:shadow-xl hover:shadow-brand-500/10">
                     <div className="flex items-center justify-between">
-                      <div className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-500/15 text-brand-300"><I size={22} /></div>
-                      <ArrowUpRight size={18} className="flip-rtl text-steel-400 transition group-hover:text-brand-300" />
+                      <div className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-500/10 text-brand-600 dark:text-brand-300"><I size={22} /></div>
+                      <ArrowUpRight size={18} className="flip-rtl text-muted transition group-hover:text-brand-600 dark:text-brand-300" />
                     </div>
                     <h3 className="font-display mt-6 text-xl font-bold">{ind.name[locale]}</h3>
-                    <p className="mt-2 text-sm leading-7 text-steel-400">{ind.desc[locale]}</p>
-                    <p className="mt-4 text-xs font-medium text-brand-300">{ind.examples[locale]}</p>
+                    <p className="mt-2 text-sm leading-7 text-muted">{ind.desc[locale]}</p>
+                    <p className="mt-4 text-xs font-medium text-brand-600 dark:text-brand-300">{ind.examples[locale]}</p>
                   </Link>
                 </Reveal>
               );

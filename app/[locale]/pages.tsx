@@ -4,6 +4,7 @@ import { ArrowUpRight, Briefcase, Check, Clock, Download, Mail, MapPin, Phone, P
 import { getDict } from "@/lib/i18n";
 import { brands, categories, exhibitions, gallery, industries, jobs, news, products, services, stats, videos } from "@/lib/data";
 import Videos from "@/components/Videos";
+import { specs } from "@/lib/specs";
 import { site, waLink, type Locale } from "@/lib/site";
 import { Counter, Gallery, GlowCard, QuoteButton, Reveal, btnGhost, btnPrimary } from "@/components/client";
 import { Container, CtaBand, MachineCard, NewsCard, PageHero, SectionTitle, icons } from "@/components/ui";
@@ -50,12 +51,12 @@ export function AboutPage({ locale }: P) {
           })}
         </Container>
       </section>
-      <section className="bg-ink-950 py-20 text-white">
+      <section className="bg-gradient-to-r from-brand-600 to-brand-500 py-20 text-white">
         <Container className="grid grid-cols-2 gap-8 md:grid-cols-4">
           {stats.map((s) => (
             <div key={s.label.en} className="text-center">
-              <div className="font-display text-5xl font-bold text-brand-400"><Counter to={s.value} suffix={s.suffix} /></div>
-              <div className="mt-2 text-sm text-steel-400">{s.label[locale]}</div>
+              <div className="font-display text-5xl font-bold text-white"><Counter to={s.value} suffix={s.suffix} /></div>
+              <div className="mt-2 text-sm text-white/80">{s.label[locale]}</div>
             </div>
           ))}
         </Container>
@@ -98,6 +99,8 @@ export function MachineDetailPage({ locale, slug }: P & { slug: string }) {
   const t = getDict(locale);
   const cat = categories.find((c) => c.id === p.category)!;
   const related = products.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 3);
+  const sp = specs[p.slug];
+  const ar = locale === "ar";
   const productLd = {
     "@context": "https://schema.org", "@type": "Product", name: p.name.en, description: p.desc.en, image: p.img,
     brand: { "@type": "Brand", name: "ALSAKR" }, manufacturer: { "@type": "Organization", name: site.legal.en },
@@ -105,22 +108,22 @@ export function MachineDetailPage({ locale, slug }: P & { slug: string }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
-      <section className="relative overflow-hidden bg-ink-950 pb-16 pt-36 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-500 pb-16 pt-36 text-white">
         <div className="grid-bg absolute inset-0 opacity-60" />
-        <div className="absolute -top-40 end-0 h-[500px] w-[500px] rounded-full bg-brand-500/25 blur-[140px]" />
+        <div className="absolute -top-40 end-0 h-[500px] w-[500px] rounded-full bg-white/20 blur-[140px]" />
         <Container className="relative grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <nav className="mb-5 flex flex-wrap gap-2 text-sm text-steel-400">
+            <nav className="mb-5 flex flex-wrap gap-2 text-sm text-white/75">
               <Link href={`/${locale}/`} className="hover:text-white">{t.nav.home}</Link><span>/</span>
               <Link href={`/${locale}/machines/?cat=${cat.id}`} className="hover:text-white">{cat.name[locale]}</Link>
             </nav>
             <Reveal><h1 className="font-display text-4xl font-bold leading-tight sm:text-5xl">{p.name[locale]}</h1></Reveal>
-            <Reveal delay={0.1}><p className="mt-5 text-lg leading-8 text-steel-400">{p.desc[locale]}</p></Reveal>
+            <Reveal delay={0.1}><p className="mt-5 text-lg leading-8 text-white/90">{p.desc[locale]}</p></Reveal>
             <Reveal delay={0.15}>
               <div className="mt-8 grid grid-cols-3 gap-3">
                 {p.stats.map((s) => (
-                  <div key={s.label.en} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <div className="text-xs text-steel-400">{s.label[locale]}</div>
+                  <div key={s.label.en} className="rounded-2xl border border-white/25 bg-white/10 p-4 backdrop-blur">
+                    <div className="text-xs text-white/75">{s.label[locale]}</div>
                     <div className="font-display mt-1 font-bold text-white" dir="ltr">{s.value}</div>
                   </div>
                 ))}
@@ -174,6 +177,60 @@ export function MachineDetailPage({ locale, slug }: P & { slug: string }) {
           </div>
         </Container>
       </section>
+
+      {sp && (
+        <section className="pb-20">
+          <Container className="grid gap-8 lg:grid-cols-5">
+            <div className="surface overflow-hidden rounded-3xl border border-line lg:col-span-3">
+              <h2 className="font-display border-b border-line px-8 py-5 text-2xl font-bold">{ar ? "البيانات الفنية" : "Technical data"}</h2>
+              <table className="w-full text-sm">
+                <tbody>
+                  {sp.table.map((r, i) => (
+                    <tr key={r.k.en} className={i % 2 ? "" : "bg-brand-500/[0.04]"}>
+                      <th scope="row" className="w-2/5 px-8 py-3 text-start font-medium text-muted">{r.k[locale]}</th>
+                      <td className="px-8 py-3 font-semibold" dir="ltr" style={{ textAlign: ar ? "right" : "left" }}>{r.v}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="border-t border-line px-8 py-3 text-xs text-muted">{ar ? "* القيم تقريبية وتختلف حسب الموديل والمنتج، ويتم تأكيدها في عرض السعر." : "* Typical values; they vary by model and product and are confirmed in your quotation."}</p>
+            </div>
+            <div className="space-y-8 lg:col-span-2">
+              <div className="surface rounded-3xl border border-line p-8">
+                <h2 className="font-display text-xl font-bold">{ar ? "كيف تعمل الماكينة" : "How it works"}</h2>
+                <ol className="mt-6 space-y-5">
+                  {sp.steps.map((st, i) => (
+                    <li key={st.en} className="flex gap-4">
+                      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-500 text-sm font-bold text-white">{i + 1}</span>
+                      <span className="pt-1 text-sm leading-6">{st[locale]}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className="rounded-3xl bg-gradient-to-br from-brand-50 to-white p-8 ring-1 ring-brand-100 dark:from-brand-500/10 dark:to-transparent dark:ring-white/10">
+                <h2 className="font-display text-xl font-bold">{ar ? "تطبيقات نموذجية" : "Typical applications"}</h2>
+                <p className="mt-3 text-sm leading-7 text-muted">{sp.apps[locale]}</p>
+              </div>
+            </div>
+          </Container>
+          <Container className="mt-8">
+            <div className="surface rounded-3xl border border-line p-8">
+              <h2 className="font-display text-xl font-bold">{ar ? "أسئلة شائعة" : "Frequently asked questions"}</h2>
+              <div className="mt-4 divide-y divide-[var(--line)]">
+                {sp.faq.map((f) => (
+                  <details key={f.q.en} className="group py-4">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
+                      {f.q[locale]}
+                      <Plus size={18} className="shrink-0 text-brand-500 transition group-open:rotate-45" />
+                    </summary>
+                    <p className="mt-3 text-sm leading-7 text-muted">{f.a[locale]}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
+      )}
 
       {p.gallery.length > 1 && (
         <section className="pb-20">
@@ -290,10 +347,10 @@ export function AutomationPage({ locale }: P) {
             ))}
           </div>
           <Reveal>
-            <a href={site.catalog} download className="group mt-12 flex flex-col items-center justify-between gap-6 rounded-3xl bg-ink-950 p-8 text-white sm:flex-row">
+            <a href={site.catalog} download className="group mt-12 flex flex-col items-center justify-between gap-6 rounded-3xl bg-gradient-to-r from-brand-600 to-brand-500 p-8 text-white sm:flex-row">
               <div>
                 <h3 className="font-display text-2xl font-bold">{t.pages.catalog}</h3>
-                <p className="mt-1 text-steel-400">{t.pages.catalogD}</p>
+                <p className="mt-1 text-white/85">{t.pages.catalogD}</p>
               </div>
               <span className={btnPrimary}><Download size={16} /> {t.cta.catalog}</span>
             </a>

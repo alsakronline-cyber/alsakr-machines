@@ -60,7 +60,7 @@ export const btnGhost =
 
 /* ---------- Theme ---------- */
 export function ThemeToggle({ locale }: { locale: Locale }) {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   useEffect(() => setDark(document.documentElement.classList.contains("dark")), []);
   const t = getDict(locale).theme;
   const toggle = () => {
