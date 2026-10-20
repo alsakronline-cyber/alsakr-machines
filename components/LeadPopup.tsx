@@ -76,8 +76,8 @@ export default function LeadPopup({ locale }: { locale: Locale }) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
   });
 
   const close = () => {
@@ -140,9 +140,8 @@ export default function LeadPopup({ locale }: { locale: Locale }) {
                 </select>
               </label>
 
-              <AnimatePresence mode="popLayout">
                 {questions.map((q, i) => (
-                  <motion.label key={type + q.id} className="block" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ delay: i * 0.05 }}>
+                  <motion.label key={type + q.id} className="block" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
                     <span className="mb-1.5 block text-sm font-semibold">{q.label[locale]}</span>
                     <select value={answers[q.id] ?? ""} onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))} className={field}>
                       <option value="">{ar ? "اختر…" : "Select…"}</option>
@@ -150,7 +149,6 @@ export default function LeadPopup({ locale }: { locale: Locale }) {
                     </select>
                   </motion.label>
                 ))}
-              </AnimatePresence>
 
               {current && (
                 <motion.div className="grid gap-3 sm:grid-cols-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
