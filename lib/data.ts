@@ -20,7 +20,7 @@ export const industries: { id: IndustryId; icon: string; img: string; name: T; d
   { id: "pharma", icon: "Pill", img: "/img/fb/supplements-line.jpg", name: s("الأدوية", "Pharmaceuticals"),
     desc: s("دقة تعبئة عالية وأجزاء ملامسة 316L وأنظمة CIP وتعقيم UV.", "High-accuracy dosing, 316L contact parts, CIP and UV sterilization options."),
     examples: s("شراب · نقط · مراهم · ساشيهات بودرة", "Syrups · Drops · Ointments · Powder sachets") },
-  { id: "cosmetics", icon: "Sparkles", img: "/img/fb/capping-line.jpg", name: s("مستحضرات التجميل", "Cosmetics & Personal Care"),
+  { id: "cosmetics", icon: "Sparkles", img: "/img/fb/shampoo-line.jpg", name: s("مستحضرات التجميل", "Cosmetics & Personal Care"),
     desc: s("تعبئة الكريمات والشامبو والجل بمكابس دقيقة ولصق استيكر احترافي.", "Piston filling for creams, shampoos and gels with premium labelling."),
     examples: s("شامبو · كريم · لوشن · عطور", "Shampoo · Creams · Lotions · Fragrance") },
   { id: "chemicals", icon: "FlaskConical", img: "/img/fb/bottles-turntable.jpg", name: s("المنظفات والكيماويات", "Detergents & Chemicals"),
@@ -29,7 +29,7 @@ export const industries: { id: IndustryId; icon: string; img: string; name: T; d
   { id: "oils", icon: "Droplets", img: "/img/fb/oil-line.jpg", name: s("الزيوت", "Edible & Lube Oils"),
     desc: s("تعبئة بالفلوميتر والمضخات للزيوت النباتية وزيت الزيتون وزيوت المحركات حتى 20 لتر.", "Flowmeter and pump filling for edible, olive and lube oils up to 20 L."),
     examples: s("زيت طعام · زيت زيتون · زيوت محركات", "Cooking oil · Olive oil · Lubricants") },
-  { id: "agro", icon: "Sprout", img: "/img/drums.jpg", name: s("الكيماويات الزراعية", "Agrochemicals"),
+  { id: "agro", icon: "Sprout", img: "/img/fb/capping-head.jpg", name: s("الكيماويات الزراعية", "Agrochemicals"),
     desc: s("ماكينات آمنة لتعبئة المبيدات والأسمدة السائلة والبودرة.", "Safe filling of pesticides and liquid or powder fertilizers."),
     examples: s("مبيدات · أسمدة سائلة · مخصبات", "Pesticides · Liquid fertilizers · Boosters") },
 ];
@@ -59,8 +59,8 @@ const control: T[] = [
 export const products: Product[] = [
   {
     slug: "liquid-filling-machine", category: "filling", featured: true,
-    img: "/img/liquid-filling.jpg",
-    gallery: ["/img/liquid-filling.jpg", "/img/fb/oil-line.jpg", "/img/fb/bottles-turntable.jpg", "/img/drums.jpg", "/img/siemens-panel.jpg", "/img/project-1.jpg", "/img/project-2.jpg"],
+    img: "/img/fb/expo-filler.jpg",
+    gallery: ["/img/fb/expo-filler.jpg", "/img/liquid-filling.jpg", "/img/fb/turnkey-line.jpg", "/img/fb/oil-line.jpg", "/img/fb/bottles-turntable.jpg", "/img/drums.jpg", "/img/siemens-panel.jpg", "/img/project-1.jpg", "/img/project-2.jpg"],
     name: s("ماكينة تعبئة السوائل الأوتوماتيكية", "Automatic Liquid Filling Machine"),
     short: s("تعبئة خطية أوتوماتيكية للسوائل الخفيفة واللزجة من 50 مل حتى 20 لتر.", "Inline automatic filling for free-flowing and viscous liquids, 50 ml to 20 L."),
     desc: s(
@@ -94,7 +94,7 @@ export const products: Product[] = [
   },
   {
     slug: "capping-machine", category: "filling", featured: true,
-    img: "/img/capping.jpg", gallery: ["/img/capping.jpg", "/img/fb/capping-line.jpg", "/img/fb/bottles-turntable.jpg", "/img/capping-2.jpg"],
+    img: "/img/fb/capping-head.jpg", gallery: ["/img/fb/capping-head.jpg", "/img/capping.jpg", "/img/fb/capping-line.jpg", "/img/fb/bottles-turntable.jpg", "/img/capping-2.jpg"],
     name: s("ماكينة الغطاء (الكابينج)", "Capping Machine"),
     short: s("غلق أوتوماتيكي للأغطية القلاووظ والضغط والـ Twist-off.", "Automatic screw, press and twist-off capping."),
     desc: s(
@@ -369,9 +369,9 @@ export const services = [
 export type NewsType = "event" | "news" | "project" | "blog";
 // Sample posts: replace with real company news.
 export const news: { slug: string; date: string; type: NewsType; img: string; title: T; excerpt: T }[] = [
-  { slug: "pack-process-2026", date: "2026-09-10", type: "event", img: "/img/project-1.jpg",
-    title: s("الصقر في معرض Pack Process 2026", "ALSAKR at Pack Process 2026"),
-    excerpt: s("شاركنا بأحدث خطوط التعبئة والتغليف في المعرض بالقاهرة.", "We showcased our latest filling and packaging lines in Cairo.") },
+  { slug: "food-africa-2025", date: "2025-12-09", type: "event", img: "/img/fb/expo/stand-2.jpg",
+    title: s("الصقر في معرض Food Africa وProcessing & Packaging 2025", "ALSAKR at Food Africa & Processing and Packaging 2025"),
+    excerpt: s("عرضنا أحدث خطوط التعبئة والتغليف الذكية في جناحنا بالقاعة 1 – G38، من 9 إلى 12 ديسمبر 2025 بالقاهرة.", "We showcased our latest smart filling and packing lines at Hall 1 – Stand G38, 9–12 December 2025, Cairo.") },
   { slug: "new-multilane", date: "2026-06-02", type: "news", img: "/img/multilane.png",
     title: s("إطلاق الجيل الجديد من ماكينات الساشيه متعددة المسارات", "New-generation multi-lane sachet machine"),
     excerpt: s("حتى 900 ساشيه في الدقيقة بهيكل استانلس كامل.", "Up to 900 sachets per minute with a full stainless frame.") },
@@ -390,6 +390,7 @@ export const jobs = [
 ];
 
 export const gallery = [
+  "/img/fb/expo-filler.jpg", "/img/fb/capping-head.jpg", "/img/fb/shampoo-line.jpg", "/img/fb/turnkey-line.jpg",
   "/img/fb/oil-line.jpg", "/img/fb/labelling-machine.jpg", "/img/fb/bottles-turntable.jpg", "/img/fb/capping-line.jpg", "/img/fb/supplements-line.jpg", "/img/fb/control-panel.jpg",
   "/img/liquid-filling.jpg", "/img/labelling-2.jpg", "/img/project-1.jpg", "/img/capping.jpg",
   "/img/vffs.jpg", "/img/project-2.jpg", "/img/sleeve.jpg", "/img/siemens-panel.jpg",
@@ -421,3 +422,14 @@ export const videos: Video[] = [
 
 export const fbVideoEmbed = (id: string) =>
   `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(`https://www.facebook.com/ags2030/videos/${id}/`)}&show_text=false&width=1280&height=720`;
+
+// Real exhibition photos from the company Facebook page.
+export const exhibitions = [
+  {
+    name: s("معرض Food Africa وProcessing & Packaging", "Food Africa & Processing and Packaging"),
+    place: s("القاهرة · القاعة 1 – جناح G38", "Cairo · Hall 1 – Stand G38"),
+    date: s("9 – 12 ديسمبر 2025", "9 – 12 December 2025"),
+    desc: s("عرضنا ماكينة تعبئة السوائل الأوتوماتيكية وماكينات لصق الليبل والتعبئة الرأسية، والتقينا بعملائنا وشركائنا من مختلف القطاعات.", "We exhibited our automatic liquid filler, labelling and VFFS machines and met customers and partners from across the industry."),
+    photos: ["/img/fb/expo/stand-1.jpg", "/img/fb/expo/stand-2.jpg", "/img/fb/expo/stand-3.jpg", "/img/fb/expo/stand-4.jpg", "/img/fb/expo-filler.jpg", "/img/fb/expo/invite-2025.jpg"],
+  },
+];

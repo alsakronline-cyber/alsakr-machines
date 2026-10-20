@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, Briefcase, Check, Clock, Download, Mail, MapPin, Phone, Plus, Target, Eye } from "lucide-react";
 import { getDict } from "@/lib/i18n";
-import { brands, categories, gallery, industries, jobs, news, products, services, stats, videos } from "@/lib/data";
+import { brands, categories, exhibitions, gallery, industries, jobs, news, products, services, stats, videos } from "@/lib/data";
 import Videos from "@/components/Videos";
 import { site, waLink, type Locale } from "@/lib/site";
 import { Counter, Gallery, GlowCard, QuoteButton, Reveal, btnGhost, btnPrimary } from "@/components/client";
@@ -24,7 +24,7 @@ export function AboutPage({ locale }: P) {
         <Container className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/img/project-1.jpg" alt="" className="aspect-[4/3] w-full rounded-[2rem] border border-line object-cover" />
+            <img src="/img/fb/expo-filler.jpg" alt="" className="aspect-[4/3] w-full rounded-[2rem] border border-line object-cover" />
           </Reveal>
           <div>
             <SectionTitle kicker="ALSAKR" title={t.about.sub} />
@@ -346,6 +346,7 @@ export function GalleryPage({ locale }: P) {
           <div className="mt-10"><Videos items={videos} locale={locale} /></div>
         </Container>
       </section>
+      <Exhibitions locale={locale} />
       <section className="py-20">
         <Container><Gallery images={gallery} className="columns-2 gap-4 md:columns-3 lg:columns-4" /></Container>
       </section>
@@ -353,16 +354,41 @@ export function GalleryPage({ locale }: P) {
   );
 }
 
+function Exhibitions({ locale }: P) {
+  const t = getDict(locale);
+  return (
+    <section className="pt-20">
+      <Container>
+        <SectionTitle kicker={t.pages.events} title={t.pages.events} />
+        {exhibitions.map((e) => (
+          <div key={e.name.en} className="surface mt-10 overflow-hidden rounded-[2rem] border border-line">
+            <div className="flex flex-wrap items-end justify-between gap-4 p-8">
+              <div>
+                <span className="text-sm font-semibold text-brand-500">{e.date[locale]} · {e.place[locale]}</span>
+                <h3 className="font-display mt-1 text-2xl font-bold">{e.name[locale]}</h3>
+                <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">{e.desc[locale]}</p>
+              </div>
+            </div>
+            <div className="px-8 pb-8"><Gallery images={e.photos} className="columns-2 gap-4 md:columns-3" /></div>
+          </div>
+        ))}
+      </Container>
+    </section>
+  );
+}
+
 export function NewsPage({ locale }: P) {
   const t = getDict(locale);
   return (
     <>
-      <PageHero title={t.nav.news} sub={t.pages.newsSub} img="/img/project-1.jpg" crumbs={crumbs(locale, { href: `/${locale}/news/`, label: t.nav.news })} />
+      <PageHero title={t.nav.news} sub={t.pages.newsSub} img="/img/fb/expo/stand-3.jpg" crumbs={crumbs(locale, { href: `/${locale}/news/`, label: t.nav.news })} />
       <section className="py-20">
         <Container className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {news.map((n, i) => <Reveal key={n.slug} delay={(i % 3) * 0.08}><NewsCard n={n} locale={locale} /></Reveal>)}
         </Container>
       </section>
+      <Exhibitions locale={locale} />
+      <div className="pb-20" />
     </>
   );
 }

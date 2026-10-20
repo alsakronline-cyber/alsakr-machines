@@ -10,7 +10,7 @@ import { Container, CtaBand, MachineCard, NewsCard, SectionTitle, icons } from "
 import { ContactForm } from "@/components/Forms";
 
 const catImg: Record<string, string> = {
-  filling: "/img/liquid-filling.jpg", packaging: "/img/vffs.jpg", labelling: "/img/labelling-2.jpg", "end-of-line": "/img/palletizer.jpg",
+  filling: "/img/fb/expo-filler.jpg", packaging: "/img/vffs.jpg", labelling: "/img/fb/labelling-machine.jpg", "end-of-line": "/img/fb/turnkey-line.jpg",
 };
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
