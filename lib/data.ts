@@ -17,16 +17,16 @@ export const industries: { id: IndustryId; icon: string; img: string; name: T; d
   { id: "food", icon: "Wheat", img: "/img/vffs.jpg", name: s("الأغذية والمشروبات", "Food & Beverage"),
     desc: s("خطوط صحية من الاستانلس ستيل لتعبئة العصائر والصوصات والحبوب والتوابل والمجمدات.", "Hygienic stainless-steel lines for juices, sauces, grains, spices and frozen food."),
     examples: s("عصائر · أرز · سكر · توابل · خضروات مجمدة", "Juices · Rice · Sugar · Spices · Frozen veg") },
-  { id: "pharma", icon: "Pill", img: "/img/multilane.png", name: s("الأدوية", "Pharmaceuticals"),
+  { id: "pharma", icon: "Pill", img: "/img/fb/supplements-line.jpg", name: s("الأدوية", "Pharmaceuticals"),
     desc: s("دقة تعبئة عالية وأجزاء ملامسة 316L وأنظمة CIP وتعقيم UV.", "High-accuracy dosing, 316L contact parts, CIP and UV sterilization options."),
     examples: s("شراب · نقط · مراهم · ساشيهات بودرة", "Syrups · Drops · Ointments · Powder sachets") },
-  { id: "cosmetics", icon: "Sparkles", img: "/img/labelling.jpg", name: s("مستحضرات التجميل", "Cosmetics & Personal Care"),
+  { id: "cosmetics", icon: "Sparkles", img: "/img/fb/capping-line.jpg", name: s("مستحضرات التجميل", "Cosmetics & Personal Care"),
     desc: s("تعبئة الكريمات والشامبو والجل بمكابس دقيقة ولصق استيكر احترافي.", "Piston filling for creams, shampoos and gels with premium labelling."),
     examples: s("شامبو · كريم · لوشن · عطور", "Shampoo · Creams · Lotions · Fragrance") },
-  { id: "chemicals", icon: "FlaskConical", img: "/img/project-2.jpg", name: s("المنظفات والكيماويات", "Detergents & Chemicals"),
+  { id: "chemicals", icon: "FlaskConical", img: "/img/fb/bottles-turntable.jpg", name: s("المنظفات والكيماويات", "Detergents & Chemicals"),
     desc: s("إضافات مقاومة للكيماويات القوية وفوهات ضد التسريب.", "Aggressive-chemical-resistant add-ons and leak-proof nozzles."),
     examples: s("منظفات سائلة · مطهرات · دهانات", "Liquid detergents · Sanitizers · Paints") },
-  { id: "oils", icon: "Droplets", img: "/img/liquid-filling.jpg", name: s("الزيوت", "Edible & Lube Oils"),
+  { id: "oils", icon: "Droplets", img: "/img/fb/oil-line.jpg", name: s("الزيوت", "Edible & Lube Oils"),
     desc: s("تعبئة بالفلوميتر والمضخات للزيوت النباتية وزيت الزيتون وزيوت المحركات حتى 20 لتر.", "Flowmeter and pump filling for edible, olive and lube oils up to 20 L."),
     examples: s("زيت طعام · زيت زيتون · زيوت محركات", "Cooking oil · Olive oil · Lubricants") },
   { id: "agro", icon: "Sprout", img: "/img/drums.jpg", name: s("الكيماويات الزراعية", "Agrochemicals"),
@@ -60,7 +60,7 @@ export const products: Product[] = [
   {
     slug: "liquid-filling-machine", category: "filling", featured: true,
     img: "/img/liquid-filling.jpg",
-    gallery: ["/img/liquid-filling.jpg", "/img/drums.jpg", "/img/siemens-panel.jpg", "/img/project-1.jpg", "/img/project-2.jpg"],
+    gallery: ["/img/liquid-filling.jpg", "/img/fb/oil-line.jpg", "/img/fb/bottles-turntable.jpg", "/img/drums.jpg", "/img/siemens-panel.jpg", "/img/project-1.jpg", "/img/project-2.jpg"],
     name: s("ماكينة تعبئة السوائل الأوتوماتيكية", "Automatic Liquid Filling Machine"),
     short: s("تعبئة خطية أوتوماتيكية للسوائل الخفيفة واللزجة من 50 مل حتى 20 لتر.", "Inline automatic filling for free-flowing and viscous liquids, 50 ml to 20 L."),
     desc: s(
@@ -94,7 +94,7 @@ export const products: Product[] = [
   },
   {
     slug: "capping-machine", category: "filling", featured: true,
-    img: "/img/capping.jpg", gallery: ["/img/capping.jpg", "/img/capping-2.jpg"],
+    img: "/img/capping.jpg", gallery: ["/img/capping.jpg", "/img/fb/capping-line.jpg", "/img/fb/bottles-turntable.jpg", "/img/capping-2.jpg"],
     name: s("ماكينة الغطاء (الكابينج)", "Capping Machine"),
     short: s("غلق أوتوماتيكي للأغطية القلاووظ والضغط والـ Twist-off.", "Automatic screw, press and twist-off capping."),
     desc: s(
@@ -117,7 +117,7 @@ export const products: Product[] = [
   },
   {
     slug: "labelling-machine", category: "labelling", featured: true,
-    img: "/img/labelling.jpg", gallery: ["/img/labelling.jpg", "/img/labelling-2.jpg", "/img/labelling-3.jpg", "/img/saturno.png"],
+    img: "/img/fb/labelling-machine.jpg", gallery: ["/img/fb/labelling-machine.jpg", "/img/labelling.jpg", "/img/labelling-2.jpg", "/img/labelling-3.jpg", "/img/saturno.png"],
     name: s("ماكينة لصق الاستيكر", "Self-Adhesive Labelling Machine"),
     short: s("لصق على العبوات الأسطوانية والبيضاوية والمستطيلة بتكنولوجيا إيطالية.", "Cylindrical, oval and rectangular labelling, Italian technology."),
     desc: s(
@@ -390,7 +390,34 @@ export const jobs = [
 ];
 
 export const gallery = [
+  "/img/fb/oil-line.jpg", "/img/fb/labelling-machine.jpg", "/img/fb/bottles-turntable.jpg", "/img/fb/capping-line.jpg", "/img/fb/supplements-line.jpg", "/img/fb/control-panel.jpg",
   "/img/liquid-filling.jpg", "/img/labelling-2.jpg", "/img/project-1.jpg", "/img/capping.jpg",
   "/img/vffs.jpg", "/img/project-2.jpg", "/img/sleeve.jpg", "/img/siemens-panel.jpg",
   "/img/multilane.png", "/img/thermoforming.jpg", "/img/labelling-3.jpg", "/img/factory.jpg",
 ];
+
+// Public videos from the company Facebook page (facebook.com/ags2030), embedded with Facebook's player.
+export type Video = { id: string; poster: string; title: T; product?: string; industry?: IndustryId };
+export const videos: Video[] = [
+  { id: "2038545836842865", poster: "/img/fb/oil-line.jpg", product: "liquid-filling-machine", industry: "oils",
+    title: s("خط تعبئة وتغليف زيوت الطعام", "Edible oil filling & packaging line") },
+  { id: "2213324285880743", poster: "/img/fb/labelling-machine.jpg", product: "labelling-machine", industry: "cosmetics",
+    title: s("ماكينة لصق الليبل على العبوات", "Bottle labelling machine") },
+  { id: "4533817426878266", poster: "/img/fb/bottles-turntable.jpg", product: "liquid-filling-machine", industry: "agro",
+    title: s("خط إنتاج متكامل للأسمدة والمبيدات", "Complete fertilizer & pesticide line") },
+  { id: "4622431931409388", poster: "/img/fb/capping-line.jpg", product: "capping-machine", industry: "food",
+    title: s("تعبئة السوائل الغذائية بالتكنولوجيا المناسبة", "Food liquids filling, the right technology") },
+  { id: "2119286305340802", poster: "/img/fb/videos/2119286305340802.jpg", product: "liquid-filling-machine", industry: "oils",
+    title: s("خط تعبئة وتغليف زيت الزيتون", "Olive oil filling & packaging line") },
+  { id: "4403967446599914", poster: "/img/fb/videos/4403967446599914.jpg", product: "liquid-filling-machine", industry: "food",
+    title: s("خط تعبئة العصائر والسوائل الغذائية", "Juice & food liquids filling line") },
+  { id: "1362723590264250", poster: "/img/multilane.png", product: "multi-lane-sachet-machine", industry: "pharma",
+    title: s("ماكينة تعبئة الساشيه بسرعة ودقة", "Fast, accurate sachet packing") },
+  { id: "1776655903556115", poster: "/img/fb/videos/1776655903556115.jpg", product: "liquid-filling-machine", industry: "agro",
+    title: s("خطوط الأسمدة والمبيدات والمخصبات الزراعية", "Fertilizer, pesticide & agro lines") },
+  { id: "1112143514851785", poster: "/img/fb/control-panel.jpg",
+    title: s("مكونات عالمية في كل ماكينة", "World-class components in every machine") },
+];
+
+export const fbVideoEmbed = (id: string) =>
+  `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(`https://www.facebook.com/ags2030/videos/${id}/`)}&show_text=false&autoplay=true`;

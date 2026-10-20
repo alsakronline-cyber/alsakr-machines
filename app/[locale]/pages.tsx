@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, Briefcase, Check, Clock, Download, Mail, MapPin, Phone, Plus, Target, Eye } from "lucide-react";
 import { getDict } from "@/lib/i18n";
-import { brands, categories, gallery, industries, jobs, news, products, services, stats } from "@/lib/data";
+import { brands, categories, gallery, industries, jobs, news, products, services, stats, videos } from "@/lib/data";
+import Videos from "@/components/Videos";
 import { site, waLink, type Locale } from "@/lib/site";
 import { Counter, Gallery, GlowCard, QuoteButton, Reveal, btnGhost, btnPrimary } from "@/components/client";
 import { Container, CtaBand, MachineCard, NewsCard, PageHero, SectionTitle, icons } from "@/components/ui";
@@ -183,6 +184,15 @@ export function MachineDetailPage({ locale, slug }: P & { slug: string }) {
         </section>
       )}
 
+      {videos.some((v) => v.product === p.slug) && (
+        <section className="pb-20">
+          <Container>
+            <h2 className="font-display mb-8 text-2xl font-bold">{t.sections.videosT}</h2>
+            <Videos items={videos.filter((v) => v.product === p.slug).slice(0, 3)} locale={locale} />
+          </Container>
+        </section>
+      )}
+
       <section className="pb-8">
         <Container>
           <div className="glass flex flex-col items-center justify-between gap-6 rounded-3xl p-8 sm:flex-row">
@@ -249,7 +259,7 @@ export function AutomationPage({ locale }: P) {
   const t = getDict(locale);
   return (
     <>
-      <PageHero title={t.nav.automation} sub={t.pages.automationSub} img="/img/siemens-panel.jpg" crumbs={crumbs(locale, { href: `/${locale}/automation/`, label: t.nav.automation })} />
+      <PageHero title={t.nav.automation} sub={t.pages.automationSub} img="/img/fb/control-panel.jpg" crumbs={crumbs(locale, { href: `/${locale}/automation/`, label: t.nav.automation })} />
       <section className="py-24">
         <Container>
           <div className="grid gap-6 md:grid-cols-2">
@@ -329,7 +339,13 @@ export function GalleryPage({ locale }: P) {
   const t = getDict(locale);
   return (
     <>
-      <PageHero title={t.nav.gallery} sub={t.pages.gallerySub} img="/img/labelling-2.jpg" crumbs={crumbs(locale, { href: `/${locale}/gallery/`, label: t.nav.gallery })} />
+      <PageHero title={t.nav.gallery} sub={t.pages.gallerySub} img="/img/fb/oil-line.jpg" crumbs={crumbs(locale, { href: `/${locale}/gallery/`, label: t.nav.gallery })} />
+      <section className="pt-20">
+        <Container>
+          <SectionTitle kicker={t.sections.videos} title={t.sections.videosT} />
+          <div className="mt-10"><Videos items={videos} locale={locale} /></div>
+        </Container>
+      </section>
       <section className="py-20">
         <Container><Gallery images={gallery} className="columns-2 gap-4 md:columns-3 lg:columns-4" /></Container>
       </section>

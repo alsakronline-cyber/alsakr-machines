@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowUpRight, BadgeCheck, Cog, Gauge, Play, ShieldCheck, Wallet, Factory } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, Cog, Gauge, ShieldCheck, Wallet, Factory } from "lucide-react";
 import { getDict } from "@/lib/i18n";
-import { brands, categories, industries, news, products, stats } from "@/lib/data";
+import { brands, categories, industries, news, products, stats, videos } from "@/lib/data";
+import Videos from "@/components/Videos";
 import { site, type Locale } from "@/lib/site";
 import Hero3D from "@/components/Hero3D";
 import { Counter, GlowCard, QuoteButton, Reveal, btnGhost } from "@/components/client";
@@ -215,20 +216,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {/* VIDEOS */}
       <section className="py-24">
         <Container>
-          <SectionTitle kicker={t.sections.videos} title={t.sections.videosT} />
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {[["/img/liquid-filling.jpg", products[0]], ["/img/vffs.jpg", products[4]], ["/img/labelling-2.jpg", products[2]]].map(([img, p], i) => (
-              <Reveal key={i} delay={i * 0.08}>
-                <a href={site.social.youtube} target="_blank" rel="noopener" className="group relative block aspect-video overflow-hidden rounded-3xl bg-ink-900">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img as string} alt="" loading="lazy" className="h-full w-full object-cover opacity-70 transition duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 to-transparent" />
-                  <span className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition group-hover:scale-110 group-hover:bg-brand-500"><Play size={24} fill="currentColor" /></span>
-                  <span className="absolute inset-x-0 bottom-0 p-5 font-semibold text-white">{(p as (typeof products)[number]).name[locale]}</span>
-                </a>
-              </Reveal>
-            ))}
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionTitle kicker={t.sections.videos} title={t.sections.videosT} />
+            <Link href={L("/gallery/")} className={btnGhost}>{t.cta.all} <ArrowUpRight size={16} className="flip-rtl" /></Link>
           </div>
+          <Reveal className="mt-14">
+            <Videos items={videos.slice(0, 3)} locale={locale} />
+          </Reveal>
         </Container>
       </section>
 
