@@ -8,8 +8,8 @@ export const site = {
   name: { ar: "توب جروب | الصقر للماكينات", en: "Top Group | Al Sakr Machines" },
   legal: { ar: "الصقر للتجارة والتصنيع", en: "ALSAKR for Trading & Manufacturing" },
   founded: 1995,
-  phones: ["+20 10 21717453", "+20 10 98079365"],
-  whatsapp: "201021717453",
+  phones: ["+20 10 98079365", "+20 10 21717453"],
+  whatsapp: "201098079365",
   emails: ["info@topgroupco.com", "sales@topgroupco.com"],
   address: {
     ar: "القطعة VH، المنطقة الصناعية C3، العاشر من رمضان، مصر",
