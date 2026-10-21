@@ -3,6 +3,7 @@ import { ArrowUpRight, BadgeCheck, Cog, Gauge, ShieldCheck, Wallet, Factory } fr
 import { getDict } from "@/lib/i18n";
 import { brands, categories, industries, news, products, stats, videos } from "@/lib/data";
 import Videos from "@/components/Videos";
+import { MachineFinderForm } from "@/components/LeadPopup";
 import { site, type Locale } from "@/lib/site";
 import Hero3D from "@/components/Hero3D";
 import { Counter, GlowCard, QuoteButton, Reveal, btnGhost } from "@/components/client";
@@ -141,6 +142,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <Reveal key={p.slug} delay={(i % 3) * 0.08}><MachineCard p={p} locale={locale} /></Reveal>
             ))}
           </div>
+        </Container>
+      </section>
+
+      {/* MACHINE FINDER */}
+      <section id="machine-finder" className="py-24">
+        <Container className="grid items-start gap-12 lg:grid-cols-5">
+          <div className="lg:col-span-2 lg:sticky lg:top-32">
+            <SectionTitle kicker={locale === "ar" ? "مستشار الماكينات" : "Machine finder"} title={locale === "ar" ? "ما الماكينة المناسبة لمصنعك؟" : "Which machine fits your plant?"} sub={locale === "ar" ? "اختر نوع الماكينة وأجب عن أسئلة قصيرة، وسيصلنا طلبك على واتساب والبريد ليرشح لك مهندس متخصص الحل الأنسب خلال 24 ساعة." : "Pick a machine type and answer a few quick questions. Your request reaches us by WhatsApp and email, and a specialist engineer will recommend the right solution within 24 hours."} />
+          </div>
+          <Reveal className="lg:col-span-3">
+            <div className="surface rounded-[2rem] border border-line p-6 shadow-xl shadow-brand-500/5 sm:p-10">
+              <MachineFinderForm locale={locale} />
+            </div>
+          </Reveal>
         </Container>
       </section>
 

@@ -5,6 +5,7 @@ import { Mail, Send } from "lucide-react";
 import { getDict } from "@/lib/i18n";
 import { products } from "@/lib/data";
 import { site, waLink, type Locale } from "@/lib/site";
+import { emailLead } from "./LeadPopup";
 
 const field =
   "w-full rounded-xl border border-line bg-transparent px-4 py-3 text-sm outline-none transition placeholder:text-muted/70 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15";
@@ -27,10 +28,10 @@ function useSubmit(locale: Locale, subject: string) {
   };
   const submit = (values: Values, via: "wa" | "mail") => {
     const body = `${subject}\n\n${compose(values, labels)}`;
-    const url = via === "wa"
-      ? waLink(body)
-      : `mailto:${site.emails[1]}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.open(url, "_blank", "noopener");
+    // Every enquiry is emailed to the sales inbox; the WhatsApp button also opens a chat with the same details.
+    if (via === "wa") window.open(waLink(body), "_blank", "noopener");
+    const fields = Object.fromEntries(Object.entries(values).filter(([, v]) => v.trim()).map(([k, v]) => [labels[k] ?? k, v]));
+    emailLead(subject, fields);
     setSent(true);
   };
   return { submit, sent, t };
