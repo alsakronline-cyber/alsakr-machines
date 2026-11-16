@@ -1,0 +1,22 @@
+{
+  "name": "alsakr-top-group",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Official Unified Website for Al Sakr Top Group — Turnkey Packaging Machinery & Intelligent Conveyor Systems",
+  "scripts": {
+    "start": "npx serve -p 3000 .",
+    "dev": "npx serve -p 3000 .",
+    "serve": "python -m http.server 3000"
+  },
+  "keywords": [
+    "packaging-machinery",
+    "conveyor-systems",
+    "industrial-automation",
+    "al-sakr",
+    "top-group",
+    "egypt",
+    "filling-machines"
+  ],
+  "author": "Al Sakr Top Group (ALSAKR for Trading & Manufacturing)",
+  "license": "UNLICENSED"
+}
